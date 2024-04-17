@@ -1,0 +1,12 @@
+<form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Lesson Name:</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="newLesson.name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="content">Lesson Content:</label>
+      <textarea class="form-control" id="content" rows="10" [(ngModel)]="newLesson.content" name="content" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Lesson</button>
+  </form>
+  

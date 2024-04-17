@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C Programming Course</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="flex flex-row">
+      <div class="w-1/4 bg-gray-200 p-4">
+        <h2>Lessons</h2>
+        <ul class="space-y-2">
+          <li *ngFor="let lesson of lessons" class="cursor-pointer hover:bg-gray-300 p-2" (click)="onSelectLesson(lesson)">
+            {{ lesson.title }}
+          </li>
+        </ul>
+      </div>
+      <div class="w-3/4 p-4">
+        <h2 *ngIf="selectedLesson">
+          {{ selectedLesson.title }}
+        </h2>
+        <div *ngIf="selectedLesson" [innerHTML]="selectedLesson.content">
+        </div>
+      </div>
+  </div>
+</body>                     
