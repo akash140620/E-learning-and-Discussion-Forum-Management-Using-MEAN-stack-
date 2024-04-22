@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="login.component.css">
+  <title>Login</title>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form class="login-form" action="http://localhost:3000/loginUser" method="post">  
+      <div class="form-group">
+        <label for="email">Username:</label>
+        <input type="text" [(ngModel)]="mail"  id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" [useMap]="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+      <div style="padding: 15px;"><a>Did'nt have an account?<a href="/frontend/src/app/register/register.component.html">signup</a></a></div>
+    </form>
+  </div>
+</body>
+</html>

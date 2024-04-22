@@ -1,46 +1,19 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C Programming Course</title>
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<div class="mb-4">
-  <h2 class="text-lg font-bold mb-2">Recent Questions</h2>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 
-  <div class="border rounded p-4 mb-4 shadow-md" *ngFor="let post of posts">
-    <h3 class="text-base font-bold mb-2">
-      <a href="#" class="text-blue-500 hover:underline">{{ post.content }}</a>
-    </h3>
-
-    <p class="text-gray-700">{{ post.author }}</p>
-
-    <div class="flex items-center text-gray-500 text-sm">
-      <span class="mr-2">
-        {{ post.replies?.length || 0 }} Replies
-      </span>
-      <button class="text-blue-500 underline hover:text-blue-700" (click)="toggleAnswers(post.id)">
-        {{ isAnswerSectionVisible(post.id) ? 'Hide Answers' : 'View All Answers' }}
-      </button>   
-    </div>
-    
-    <div [class.hidden]="!isAnswerSectionVisible(post.id)" id="answer-section-{{ post.id }}">
-      <div *ngFor="let reply of getRepliesForPost(post.id) | async">
-        <p class="text-gray-700">{{ reply.content }}</p>
-        <p class="text-gray-500 text-sm">Replied by: {{ reply.author }}</p>
+<div class="discussion-forum">
+  <div *ngFor="let discussion of discussions">
+    <h2>{{ discussion.title }}</h2>
+    <p>{{ discussion.content }}</p>
+    <div class="answers">
+      <div *ngFor="let answer of discussion.answers">
+        <p>{{ answer.content }}</p>
       </div>
+      <form (ngSubmit)="submitAnswer(discussion._id)">
+        <input type="text" [(ngModel)]="newAnswer">
+        <button type="submit">Add Answer</button>
+      </form>
     </div>
-
-    <div class="mt-4">
-      <input type="text" class="w-full rounded border px-4 py-2 focus:outline-blue-500" placeholder="Write your reply..." [(ngModel)]="replyText">
-      <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 mt-2 float-right" (click)="submitReply(post.id)">Reply</button>
-    </div>
-  </div>
-</div>
-<div *ngIf="showModal" id="askQuestionModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 overflow-auto px-4 py-4 md:p-8">
-  <div class="bg-white rounded-lg shadow-lg p-4">
-    <h3 class="text-lg font-bold mb-4">Ask a Question</h3>
-    <textarea type="text" [(ngModel)]="questionText" placeholder="Enter your question here..." class="w-full rounded border px-4 py-2 focus:outline-blue-500 focus:ring-blue-500 focus:ring-1 mb-4"></textarea>
-    <button (click)="postQuestion()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Post Question</button>
-    <button class="text-gray-500 hover:underline mt-2" (click)="toggleModal()">Close</button>
   </div>
 </div>

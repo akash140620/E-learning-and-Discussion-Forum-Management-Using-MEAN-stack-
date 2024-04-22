@@ -3,12 +3,13 @@
   <title>C Programming Course</title>
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <div class="flex min-h-screen bg-gray-100">
+  
   <div class="w-64 bg-white shadow-md flex flex-col space-y-2 p-4">
     <h2 class="text-xl font-bold text-gray-800">C Programming Course</h2>
     <div class="search-bar">
       <form (ngSubmit)="onSearch()">
-        <input type="text" [(ngModel)]="searchTerm" name="search-term" class="search-box outline-none ring-2 ring-blue-500 rounded-md px-2 py-1" placeholder="Search lessons..." />
-        <button type="submit" class="search-button bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700">Search</button>
+        <input type="text" [(ngModel)]="searchTerm" name="search-term" class="w-full py-2 px-4 border border-gray-300 rounded-full shadow-2xl focus:outline-none focus:border-blue-400" placeholder="Search lessons..." />
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded-full shadow-lg ">Search</button>
       </form>
     </div>
     <ul class="flex flex-col space-y-2" id="lesson-list">

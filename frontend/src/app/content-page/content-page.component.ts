@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './content-page.component.html',
   styleUrls: ['./content-page.component.css'],
 })
+
+
 export class ContentPageComponent implements OnInit {
   lessons: Lesson[] = [];
   filteredLessons: Lesson[] = [];
@@ -49,7 +51,7 @@ export class ContentPageComponent implements OnInit {
 
   onSearch() {
     // Prevent default form submission is no longer needed here
-    // event.preventDefault(); // Removed
+    // event.preventDefault();Removed
 
     this.filterLessons();
 

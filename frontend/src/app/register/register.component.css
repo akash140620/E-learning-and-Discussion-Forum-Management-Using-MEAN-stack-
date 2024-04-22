@@ -1,0 +1,111 @@
+body {
+    font-family: Poppins, sans-serif;
+    background-image:url(../../assets/REGISTER\ BG.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position:stretch;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center ;
+    height: 100vh;
+    margin-top: 30px;
+}
+
+.register-container {
+    background-color: rgba(255, 255, 255, 0.5); 
+    padding: 50px;
+    border-radius: 20px;
+    width: 300px;
+    text-align: left;
+}
+
+.register-container h2 {
+    color: #333;
+}
+
+.register-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.register-btn {
+    background-color: #070707;
+    color: #fff;
+    padding: 15px 135px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.register-btn:hover {
+    background-color: rgba(255, 255, 255, 0.125);
+}
+
+
+button{
+    background-color: #ffffff;
+    color: #080710;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.register-btn {
+    background-color: #070707;
+    color: #fff;
+    padding: 15px 30px; /* Adjust the padding values for width and height */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 60px;
+    /* Center content horizontally and vertically */
+    text-align: center;
+    line-height: 100%; /* Adjust based on the button's height */
+}
+
+.register-btn:hover {
+    background-color: rgba(255, 255, 255, 0.125);
+}
+.social{
+    margin-top: 30px;
+    display: flex;
+  }
+  .social div{
+    background: red;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255,255,255,0.27);
+    color: #eaf0fb;
+    text-align: center;
+  }
+  .social div:hover{
+    background-color: rgba(255,255,255,0.47);
+  }
+  .social .fb{
+    margin-left: 4px;
+  }
+  .social i{
+    margin-right: 4px;
+  }
