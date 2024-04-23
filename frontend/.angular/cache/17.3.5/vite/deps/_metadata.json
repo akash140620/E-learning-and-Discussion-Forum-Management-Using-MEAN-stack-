@@ -1,0 +1,67 @@
+{
+  "hash": "d3d7dc68",
+  "configHash": "d93e4410",
+  "lockfileHash": "5e0b1c4f",
+  "browserHash": "ffe6be89",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "6d3dd5cf",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "69c9ac98",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "d513dca9",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "74ae0d6e",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "66988925",
+      "needsInterop": false
+    },
+    "@angular/platform-browser/animations/async": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/animations/async.mjs",
+      "file": "@angular_platform-browser_animations_async.js",
+      "fileHash": "31af4570",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "9a522f24",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-NQZXWTCR": {
+      "file": "chunk-NQZXWTCR.js"
+    },
+    "chunk-LHTDDO4X": {
+      "file": "chunk-LHTDDO4X.js"
+    },
+    "browser-DESM2HNT": {
+      "file": "browser-DESM2HNT.js"
+    },
+    "chunk-CVLI7GHA": {
+      "file": "chunk-CVLI7GHA.js"
+    },
+    "chunk-P6BN7I6E": {
+      "file": "chunk-P6BN7I6E.js"
+    }
+  }
+}

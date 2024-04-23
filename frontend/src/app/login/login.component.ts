@@ -1,37 +1,32 @@
-
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
-import {provideHttpClient} from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,HttpClientModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  mail:any;
-  password:any;
-  constructor(private route:Router, private http:HttpClient){ }
-   
-  onsubmit(){
-    alert(this.mail);
+  loginData = { email: '', password: '' };
 
-    const data={
-      email:this.mail,
-      password:this.password
-    }
-    let a=this.http.post("http://localhost:3000/loginUser",data).subscribe((response)=>{
-      if(response=="success"){
-        this.route.navigateByUrl("/home")}
-        else alert(response);
-    },(error)=>{
-      console.log(error);
-    });
-    
+  constructor(private authService: AuthService, private router: Router) {}
 
+  login() {
+    this.authService.login(this.loginData).subscribe(
+      (res) => {
+        // Set authentication status assuming successful login
+        this.authService.setAuthenticationStatus(true);
+        this.router.navigate(['/home']); // Navigate to home page
+      },
+      (err) => {
+        // Show alert for any error, including incorrect email or password
+        alert('Login failed. Please check your credentials.');
+      }
+    );
   }
 }

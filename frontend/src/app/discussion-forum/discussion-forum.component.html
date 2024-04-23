@@ -1,19 +1,43 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<!-- discussion-forum.component.html -->
+<div class="max-w-4xl mx-auto py-6">
+  <!-- Ask Question Button -->
+  <button (click)="openQuestionModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Ask Question
+  </button>
 
-<div class="discussion-forum">
-  <div *ngFor="let discussion of discussions">
-    <h2>{{ discussion.title }}</h2>
-    <p>{{ discussion.content }}</p>
-    <div class="answers">
-      <div *ngFor="let answer of discussion.answers">
-        <p>{{ answer.content }}</p>
+  <!-- Question Cards -->
+  <div *ngFor="let question of questions" class="bg-white shadow-md rounded my-6">
+    <div class="p-4">
+      <!-- Question Content -->
+      <p class="text-lg font-semibold">{{ question.content }}</p>
+      <p class="text-sm text-gray-500">Posted on: {{ question.date | date }}</p>
+
+      <!-- Toggle Answers Button -->
+      <button (click)="toggleAnswers(question)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mt-2">
+        {{ question.showAnswers ? 'Hide Answers' : 'Show Answers' }}
+      </button>
+
+      <!-- Answers -->
+      <div *ngIf="question.showAnswers" class="mt-4">
+        <div *ngFor="let answer of question.answers" class="bg-gray-100 p-2 rounded mt-2">
+          <p>{{ answer.content }}</p>
+          <p class="text-xs text-gray-500">Posted on: {{ answer.date | date }}</p>
+        </div>
       </div>
-      <form (ngSubmit)="submitAnswer(discussion._id)">
-        <input type="text" [(ngModel)]="newAnswer">
-        <button type="submit">Add Answer</button>
-      </form>
+      <div class="mt-4">
+        <input type="text" [(ngModel)]="answerTextMap[question._id]" placeholder="Type your answer here..." class="w-full border rounded-md p-2">
+        <button (click)="postAnswer(question._id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Post Answer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question Modal -->
+  <div *ngIf="showQuestionModal" class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
+    <div class="bg-white shadow-md rounded-lg p-8 max-w-lg mx-auto">
+      <h2 class="text-lg font-semibold mb-4">Ask a Question</h2>
+      <textarea #questionInput (keydown.enter)="postQuestion()" [(ngModel)]="questionText" placeholder="Type your question here..." class="w-full h-32 border rounded-md p-2"></textarea>
+      <button (click)="postQuestion()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Post Question</button>
     </div>
   </div>
 </div>

@@ -1,21 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DiscussionService } from '../../services/forum.service';
-import { HttpClient } from '@angular/common/http';
+import { ForumService } from '../../services/forum.service';
 
-interface Discussion {
-  _id: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  answers: Answer[];
-}
-
-interface Answer {
-  content: string;
-  createdAt: Date;
-}
 
 @Component({
   selector: 'app-discussion-forum',
@@ -25,37 +12,61 @@ interface Answer {
   imports: [CommonModule, FormsModule]
 })
 export class DiscussionForumComponent implements OnInit {
-  discussions: Discussion[] = []; // Replace with initialDiscussion if needed
-  newAnswer: string = '';
-  baseUrl = 'http://localhost:3000/api'; // Adjust if needed
+    @ViewChild('questionInput') questionInput!: ElementRef;
+  questions: any[] = [];
+  questionText: string = '';
+  answerText: string = '';
+  showQuestionModal: boolean = false;
+  maxVisibleAnswers: number = 1;
 
-  constructor(private http: HttpClient) { }
+  constructor(private forumService: ForumService) { }
 
-  ngOnInit() {
-    // Option 1: Fetch all discussions (default behavior)
-    // this.getDiscussions();
-
-    // Option 2: Initialize with first discussion (replace with actual logic)
-    const initialDiscussion = {
-      _id: '123', // Replace with actual ID
-      title: 'Sample Discussion',
-      content: 'This is the first sample discussion for initialization.',
-      createdAt: new Date(),
-      answers: []
-    };
-    this.discussions.push(initialDiscussion);
+  ngOnInit(): void {
+    this.loadQuestions();
   }
 
-  getDiscussions() {
-    this.http.get<Discussion[]>(`${this.baseUrl}/discussions`)
-      .subscribe(discussions => this.discussions = discussions);
+  loadQuestions(): void {
+    this.forumService.getQuestions().subscribe((data: any[]) => {
+      this.questions = data;
+    });
   }
 
-  submitAnswer(discussionId: string) {
-    this.http.post(`${this.baseUrl}/discussions/${discussionId}/answers`, { content: this.newAnswer })
-      .subscribe(() => {
-        this.newAnswer = ''; // Clear input field on success
-        this.getDiscussions(); // Refresh discussions after submitting answer
+  openQuestionModal() {
+    this.showQuestionModal = true;
+    setTimeout(() => this.questionInput.nativeElement.focus(), 0); // Focus textarea after modal is displayed
+  }
+
+  postQuestion() {
+    if (this.questionText.trim() !== '') {
+      this.forumService.postQuestion(this.questionText).subscribe(() => {
+        this.questionText = '';
+        this.showQuestionModal = false;
+        this.loadQuestions();
       });
+    }
+  }
+
+  toggleAnswers(question: any) {
+    question.showAnswers = !question.showAnswers;
+    this.maxVisibleAnswers = question.showAnswers ? question.answers.length : 1;
+  }
+  
+  
+  loadAnswers(question: any) {
+    this.forumService.getAnswers(question._id).subscribe((data: any[]) => {
+      question.answers = data;
+    });
+  }
+
+  answerTextMap: { [key: string]: string } = {};
+
+  postAnswer(questionId: string) {
+    const answerText = this.answerTextMap[questionId];
+    if (answerText && answerText.trim() !== '') {
+      this.forumService.postAnswer(questionId, answerText).subscribe(() => {
+        this.answerTextMap[questionId] = ''; // Clear the answer text after posting
+        this.loadQuestions(); // Reload questions to update answers
+      });
+    }
   }
 }

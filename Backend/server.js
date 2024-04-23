@@ -94,54 +94,127 @@ app.post('/lessons', async (req, res) => {
 
 app.use(bodyParser.json());
 
-const userSchema = new mongoose.Schema({
-  firstname: { type: String },
-  lastname: { type: String },
-  email: { type: String },
-  password: { type: String },
-});
+const User = require('./user');
 
-// let User = require("./app/models/user");
-let user = mongoose.model("insertUser", userSchema);
-app.get("/getUser", async (req, res) => {
-  // use mongoose to get all students in the database
+// Login endpoint
+app.post('/loginUser', async (req, res) => {
+  console.log('Entered login endpoint');
+  const { email, password } = req.body;
+
   try {
-    const data = await user.find();
-    console.log(data);
-    res.json(data);
-  } catch (error) {
-    console.log(error);
+    // Find user by email and password
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+      console.log('Incorrect email or password');
+      return res.status(401).json({ message: 'Incorrect email or password' });
+    }
+
+    console.log('Login successful');
+    return res.status(200).json({ message: 'Login successful' });
+  } catch (err) {
+    console.error('Error logging in:', err);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
-app.post("/insertUser", async (req, res) => {
-    const fname = req.body.firstname;
-    const lname=req.body.lastname;
-    const mail=req.body.email;
-    const pass=req.body.password;
-    console.log("Received data:", { fname, lname, mail, pass }); // Log received data
-    const result=await user.insertMany({firstname:fname,lastname:lname,email:mail,password:pass});
+
+
+// Register endpoint
+app.post('/insertUser', async (req, res) => {
+  console.log('Entered register endpoint');
+  const { firstName, lastName, email, password } = req.body;
+
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      console.log('User already exists');
+      return res.status(409).json({ message: 'User already exists' });
+    }
+
+    // Create new user
+    const newUser = new User({ firstName, lastName, email, password });
+    await newUser.save();
+
+    console.log('User registered successfully');
+    return res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    console.error('Error registering user:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
-app.post('/loginUser',async (req,res)=> {
-    const mail=req.body.email;
-    const pass=req.body.password;
-    console.log(mail,pass);
-    const resu = await user.findOne({email:mail});
-    console.log(resu);
-    if(resu==null)
-    {
-      res.json("invalid username");
+
+
+app.use(bodyParser.json());
+app.use(cors());
+
+const Question = require('./question');
+
+let questions = [{
+  id: 1,
+  content: 'This is a placeholder question',
+  answers: []
+}];
+let nextQuestionId = 2;
+
+// Get all questions
+app.get('/questions', (req, res) => {
+  res.json(questions);
+});
+
+// Post a new question
+app.post('/questions', async (req, res) => {
+  try {
+    const { content } = req.body;
+    const question = new Question({ id: nextQuestionId, content });
+    await question.save();
+    questions.push(question); // This is optional if you still need to keep questions in memory
+    nextQuestionId++;
+    res.status(201).json(question);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to create question' });
+  }
+});
+
+
+
+// Post an answer to a question
+app.post('/questions/:questionId/answers', async (req, res) => {
+  try {
+    const questionId = req.params.questionId;
+    const answerText = req.body.content;
+
+    const question = await Question.findById(questionId);
+    if (!question) {
+      res.status(404).json({ error: 'Question not found' });
+      return;
     }
-    else{
-      if(resu.password==pass)
-      {
-        res.json("success");
-      }
-      else{
-        res.json("invalid password");
-      }  
-    }
-})
+
+    question.answers.push({ content: answerText, date: new Date() });
+    await question.save();
+
+    res.status(201).json({ message: 'Answer added successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to add answer' });
+  }
+});
+
+// Get answers for a specific question
+app.get('/questions/:questionId/answers', (req, res) => {
+  const questionId = req.params.questionId;
+  const question = questions.find(q => q.id === parseInt(questionId));
+  if (!question) {
+    res.status(404).json({ error: 'Question not found' });
+    return;
+  }
+  res.json(question.answers);
+});
+
+
 
 
 // Start the server

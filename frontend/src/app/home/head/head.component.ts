@@ -13,4 +13,7 @@ export class HeadComponent {
   navigateToDis() {
     this.router.navigate(['/discussion-forum']); // Navigate to '/other-page'
     }
+    navig() {
+      this.router.navigate(['/login']); // Navigate to '/other-page'
+      }
 }
