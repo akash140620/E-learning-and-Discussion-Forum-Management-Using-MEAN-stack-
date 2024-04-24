@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../../services/courseservice';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 interface Course {
   _id: string;
   title: string;
@@ -16,7 +18,7 @@ interface Lesson {
 @Component({
   selector: 'app-course',
   standalone: true,
-  imports: [ CommonModule],
+  imports: [ CommonModule, RouterModule,],
   templateUrl: './course.component.html',
   styleUrl: './course.component.css'
 })
@@ -30,9 +32,5 @@ export class CourseComponent implements OnInit {
     this.courseService.getCourses().subscribe(courses => {
       this.courses = courses;
     });
-  }
-
-  exploreCourse(course: Course): void {
-    // Navigate to the course details page or perform any other action
   }
 }

@@ -332,5 +332,19 @@ app.put('/courses/:courseId/lessons/:lessonId', async (req, res) => {
 });
 
 
+// GET a course by ID
+app.get('/courses/:courseId', (req, res) => {
+  const courseId = req.params.courseId;
+  Course.findById(courseId, (err, course) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error retrieving course');
+    } else {
+      res.status(200).json(course);
+    }
+  });
+});
+
+
 // Start the server
 app.listen(port, () => console.log(`Server listening on port ${port}`));

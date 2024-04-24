@@ -1,4 +1,25 @@
-<div *ngIf="lesson">
-    <h2>{{ lesson.title }}</h2>
-    <div [innerHTML]="lesson.content"></div>
-</div>
+<!-- lesson.component.html -->
+
+<div class="flex">
+    <!-- Lesson List -->
+    <div class="w-1/4 p-4">
+      <h2 class="text-xl font-semibold mb-4">Lesson List</h2>
+      <ul>
+        <li *ngFor="let lesson of lessons" (click)="selectLesson(lesson)" class="cursor-pointer">
+          {{ lesson.title }}
+        </li>
+      </ul>
+    </div>
+    <!-- Lesson Content -->
+    <div class="w-3/4 p-4">
+      <h2 class="text-xl font-semibold mb-4">Lesson Content</h2>
+      <div *ngIf="selectedLesson">
+        <h3 class="text-lg font-semibold">{{ selectedLesson.title }}</h3>
+        <p>{{ selectedLesson.content }}</p>
+      </div>
+      <div *ngIf="!selectedLesson">
+        <p>Select a lesson from the list to view its content.</p>
+      </div>
+    </div>
+  </div>
+  

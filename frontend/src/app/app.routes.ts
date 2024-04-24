@@ -6,6 +6,7 @@ import { DiscussionForumComponent } from './discussion-forum/discussion-forum.co
 import { ContentPageComponent } from './content-page/content-page.component';
 import { AdminComponent } from './admin/admin.component';
 import { CourseComponent } from './course/course.component';
+import { LessonComponent } from './lesson/lesson.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'content-page', component: ContentPageComponent },
     { path: 'course', component: CourseComponent },
     { path: 'admin', component: AdminComponent },
-    { path: '**', redirectTo: '/login' } // Redirect to login for any other unmatched routes
+    { path: 'lesson', component: LessonComponent },
+    //{ path: '**', redirectTo: '/login' } // Redirect to login for any other unmatched routes
 ];
