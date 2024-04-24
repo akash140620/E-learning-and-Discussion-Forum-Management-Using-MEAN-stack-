@@ -17,16 +17,21 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    this.authService.login(this.loginData).subscribe(
-      (res) => {
-        // Set authentication status assuming successful login
-        this.authService.setAuthenticationStatus(true);
-        this.router.navigate(['/home']); // Navigate to home page
-      },
-      (err) => {
-        // Show alert for any error, including incorrect email or password
-        alert('Login failed. Please check your credentials.');
-      }
-    );
+    if (this.loginData.email === 'admin@gmail.com' && this.loginData.password === 'admin') {
+      this.router.navigate(['/admin']); // Navigate to admin page
+    }
+    else{
+      this.authService.login(this.loginData).subscribe(
+        (res) => {
+          // Set authentication status assuming successful login
+          this.authService.setAuthenticationStatus(true);
+          this.router.navigate(['/home']); // Navigate to home page for regular users
+        },
+        (err) => {
+          // Show alert for any error, including incorrect email or password
+          alert('Login failed. Please check your credentials.');
+        }
+      );
+    }
   }
 }

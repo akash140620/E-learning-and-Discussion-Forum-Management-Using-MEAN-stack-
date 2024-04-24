@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CourseService } from '../course.service';
+import { CourseService } from '../../services/courseservice';
 import { CommonModule } from '@angular/common';
+interface Course {
+  _id: string;
+  title: string;
+  lessons: Lesson[];
+}
 
 interface Lesson {
+  _id: string;
   title: string;
   content: string;
 }
@@ -16,18 +22,17 @@ interface Lesson {
 })
 
 export class CourseComponent implements OnInit {
-  lessons: Lesson[] = [];
-  selectedLesson: Lesson | undefined;
+  courses: Course[] = [];
 
   constructor(private courseService: CourseService) { }
 
   ngOnInit(): void {
-    this.courseService.getLessons().subscribe(lessons => {
-      this.lessons = lessons;
+    this.courseService.getCourses().subscribe(courses => {
+      this.courses = courses;
     });
   }
 
-  onSelectLesson(lesson: Lesson): void {
-    this.selectedLesson = lesson;
+  exploreCourse(course: Course): void {
+    // Navigate to the course details page or perform any other action
   }
 }

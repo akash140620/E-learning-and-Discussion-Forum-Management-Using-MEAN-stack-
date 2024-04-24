@@ -16,4 +16,7 @@ export class HeadComponent {
     navig() {
       this.router.navigate(['/login']); // Navigate to '/other-page'
       }
+      navigate(){
+        this.router.navigate(['/course']);
+      }
 }

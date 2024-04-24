@@ -1,0 +1,156 @@
+<div class="bg-gray-100 p-4 rounded-lg shadow-2xl">
+  <h1 class="text-3xl font-bold text-center">Admin Panel - E-learning Management</h1>
+</div>
+<div class="container mx-auto mt-8">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+    <div class="bg-white p-6 rounded-md shadow-2xl">
+      <h2 class="text-xl font-semibold mb-4">Add Course</h2>
+      <form (submit)="addCourse()" [formGroup]="courseForm">
+        <div class="mb-4">
+          <label for="courseTitle" class="block text-gray-700 font-semibold mb-2">Course Title</label>
+          <input type="text" id="courseTitle" name="courseTitle" formControlName="courseTitle"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            placeholder="Enter course title" required>
+        </div>
+        <button type="submit"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Add
+          Course</button>
+      </form>
+    </div>
+
+    <div class="bg-white p-6 rounded-md shadow-2xl">
+      <h2 class="text-xl font-semibold mb-4">Add Lesson</h2>
+      <form (submit)="addLesson()" [formGroup]="lessonForm">
+        <div class="mb-4">
+          <label for="courseSelect" class="block text-gray-700 font-semibold mb-2">Select Course</label>
+          <select id="courseSelect" name="courseId" formControlName="courseId"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            required>
+            <option value="" disabled selected>Select a course</option>
+            <option *ngFor="let course of courses" [value]="course._id">{{ course.title }}</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="lessonTitle" class="block text-gray-700 font-semibold mb-2">Lesson Title</label>
+          <input type="text" id="lessonTitle" name="lessonTitle" formControlName="lessonTitle"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            placeholder="Enter lesson title" required>
+        </div>
+        <div class="mb-4">
+          <label for="lessonContent" class="block text-gray-700 font-semibold mb-2">Lesson Content</label>
+          <textarea id="lessonContent" name="lessonContent" formControlName="lessonContent" rows="4"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            placeholder="Enter lesson content" required></textarea>
+        </div>
+        <button type="submit"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Add
+          Lesson</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+    <div class="bg-white p-6 rounded-md shadow-2xl">
+      <h2 class="text-xl font-semibold mb-4">Delete Course</h2>
+      <form (submit)="deleteCourse()" [formGroup]="deleteCourseForm">
+        <div class="mb-4">
+          <label for="deleteCourseSelect" class="block text-gray-700 font-semibold mb-2">Select Course</label>
+          <select id="deleteCourseSelect" name="deleteCourseSelect" formControlName="deleteCourseSelect"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            required>
+            <option value="" disabled selected>Select a course</option>
+            <option *ngFor="let course of courses" [value]="course._id">{{ course.title }}</option>
+          </select>
+        </div>
+        <button type="submit"
+          class="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200">Delete
+          Course</button>
+      </form>
+    </div>
+
+    <div class="bg-white p-6 rounded-md shadow-2xl">
+      <h2 class="text-xl font-semibold mb-4">Delete Lesson</h2>
+      <form (submit)="deleteLesson()" [formGroup]="deleteLessonForm">
+        <div class="mb-4">
+          <label for="deleteCourseSelect" class="block text-gray-700 font-semibold mb-2">Select Course</label>
+          <select id="deleteCourseSelect" name="deleteCourseSelect" formControlName="deleteCourseSelect"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            required>
+            <option value="" disabled selected>Select a course</option>
+            <option *ngFor="let course of courses" [value]="course._id">{{ course.title }}</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="deleteLessonSelect" class="block text-gray-700 font-semibold mb-2">Select Lesson to Delete</label>
+          <select id="deleteLessonSelect" name="deleteLessonSelect" formControlName="deleteLessonSelect"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            required>
+            <option value="" disabled selected>Select a lesson to delete</option>
+            <option *ngFor="let lesson of getSelectedCourse()?.lessons" [value]="lesson._id">{{ lesson.title }}</option>
+          </select>
+        </div>
+        <button type="submit"
+          class="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200">Delete
+          Lesson</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="bg-white p-6 rounded-md shadow-2xl mt-8">
+    <h2 class="text-xl font-semibold mb-4">Update Course Title</h2>
+    <form (submit)="updateCourseTitle()" [formGroup]="updateCourseForm">
+      <div class="mb-4">
+        <label for="updateCourseSelect" class="block text-gray-700 font-semibold mb-2">Select Course</label>
+        <select id="updateCourseSelect" name="updateCourseSelect" formControlName="updateCourseSelect"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          required>
+          <option value="" disabled selected>Select a course</option>
+          <option *ngFor="let course of courses" [value]="course._id">{{ course.title }}</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="newCourseTitle" class="block text-gray-700 font-semibold mb-2">New Course Title</label>
+        <input type="text" id="newCourseTitle" name="newCourseTitle" formControlName="newCourseTitle"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          placeholder="Enter new course title" required>
+      </div>
+      <button type="submit"
+        class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Update
+        Course Title</button>
+    </form>
+  </div>
+
+  <div class="bg-white p-6 rounded-md shadow-2xl mt-8">
+    <h2 class="text-xl font-semibold mb-4">Update Lesson Content</h2>
+    <form (submit)="updateLessonContent()" [formGroup]="updateLessonForm">
+      <div class="mb-4">
+        <label for="updateCourseSelect" class="block text-gray-700 font-semibold mb-2">Select Course</label>
+        <select id="updateCourseSelect" name="updateCourseSelect" formControlName="updateCourseSelect"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          required>
+          <option value="" disabled selected>Select a course</option>
+          <option *ngFor="let course of courses" [value]="course._id">{{ course.title }}</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="updateLessonSelect" class="block text-gray-700 font-semibold mb-2">Select Lesson to Update</label>
+        <select id="updateLessonSelect" name="updateLessonSelect" formControlName="updateLessonSelect"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          required>
+          <option value="" disabled selected>Select a lesson to update</option>
+          <option *ngFor="let lesson of getSelectedCourse()?.lessons" [value]="lesson._id">{{ lesson.title }}</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="newLessonContent" class="block text-gray-700 font-semibold mb-2">New Lesson Content</label>
+        <textarea id="newLessonContent" name="newLessonContent" formControlName="newLessonContent" rows="4"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          placeholder="Enter new lesson content" required></textarea>
+      </div>
+      <button type="submit"
+        class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Update
+        Lesson Content</button>
+    </form>
+  </div>
+</div>

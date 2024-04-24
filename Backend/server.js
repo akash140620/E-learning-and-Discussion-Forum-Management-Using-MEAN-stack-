@@ -216,6 +216,121 @@ app.get('/questions/:questionId/answers', (req, res) => {
 
 
 
+const courseSchema = new mongoose.Schema({
+  title: String,
+  lessons: [{
+    title: String,
+    content: String,
+  }],
+});
+
+const Course = mongoose.model('Course', courseSchema);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/courses', async (req, res) => {
+  try {
+    const courses = await Course.find({});
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.post('/courses', async (req, res) => {
+  const { title } = req.body;
+  try {
+    const newCourse = new Course({ title });
+    const course = await newCourse.save();
+    res.status(201).send(course);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.post('/courses/:courseId/lessons', async (req, res) => {
+  const { courseId } = req.params;
+  const { title, content } = req.body;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+    course.lessons.push({ title, content });
+    const updatedCourse = await course.save();
+    res.status(201).send(updatedCourse);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.delete('/courses/:courseId', async (req, res) => {
+  const { courseId } = req.params;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    await Course.findByIdAndDelete(courseId);
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.delete('/courses/:courseId/lessons/:lessonId', async (req, res) => {
+  const { courseId, lessonId } = req.params;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    course.lessons = course.lessons.filter(lesson => lesson._id.toString() !== lessonId);
+    await course.save();
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+
+app.put('/courses/:courseId', async (req, res) => {
+  const { courseId } = req.params;
+  const { title } = req.body;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+    course.title = title;
+    const updatedCourse = await course.save();
+    res.status(200).send(updatedCourse);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.put('/courses/:courseId/lessons/:lessonId', async (req, res) => {
+  const { courseId, lessonId } = req.params;
+  const { content } = req.body;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+    const lesson = course.lessons.id(lessonId);
+    if (!lesson) {
+      return res.status(404).send('Lesson not found');
+    }
+    lesson.content = content;
+    const updatedCourse = await course.save();
+    res.status(200).send(updatedCourse);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 
 // Start the server
 app.listen(port, () => console.log(`Server listening on port ${port}`));
