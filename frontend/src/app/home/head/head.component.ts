@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from '../../../services/session.service';
+
 
 @Component({
   selector: 'app-head',
@@ -10,7 +10,7 @@ import { SessionService } from '../../../services/session.service';
   styleUrl: './head.component.css'
 })
 export class HeadComponent {
-  constructor(private sessionService: SessionService , private router: Router) {}
+  constructor( private router: Router) {}
   navigateToDis() {
     this.router.navigate(['/discussion-forum']); // Navigate to '/other-page'
     }
@@ -19,11 +19,5 @@ export class HeadComponent {
       }
       navigate(){
         this.router.navigate(['/course']);
-      }
-      ngOnInit() {
-        // Check if user is logged in
-        if (!this.sessionService.isLoggedIn) {
-          this.sessionService.logout();
-        }
       }
 }
