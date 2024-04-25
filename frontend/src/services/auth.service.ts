@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private baseUrl = 'http://localhost:3000'; // Your backend API base URL
-  private isAuthenticated: boolean = false;
+  private authTokenKey = 'authToken';
 
   constructor(private http: HttpClient) {}
 
@@ -19,11 +19,16 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/insertUser`, data);
   }
 
-  setAuthenticationStatus(status: boolean) {
-    this.isAuthenticated = status;
-  }
+  logout(): void {
+    localStorage.removeItem(this.authTokenKey);
+ }
 
-  getAuthenticationStatus(): boolean {
-    return this.isAuthenticated;
-  }
+ isLoggedIn(): boolean {
+    return !!localStorage.getItem(this.authTokenKey);
+ }
+
+ getToken(): string | null {
+    return localStorage.getItem(this.authTokenKey);
+ }
+
 }

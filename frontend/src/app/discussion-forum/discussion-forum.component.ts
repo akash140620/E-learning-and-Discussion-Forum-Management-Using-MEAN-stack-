@@ -46,16 +46,19 @@ export class DiscussionForumComponent implements OnInit {
     }
   }
 
-  toggleAnswers(question: any) {
+  toggleAnswers(question: any): void {
     question.showAnswers = !question.showAnswers;
-    this.maxVisibleAnswers = question.showAnswers ? question.answers.length : 1;
+    if (question.showAnswers && !question.answers) {
+      this.loadAnswers(question);
+    }
   }
-  
-  
-  loadAnswers(question: any) {
+
+  loadAnswers(question: any): void {
+    console.log('Entered load answers')
     this.forumService.getAnswers(question._id).subscribe((data: any[]) => {
       question.answers = data;
     });
+    console.log(question.answers);
   }
 
   answerTextMap: { [key: string]: string } = {};

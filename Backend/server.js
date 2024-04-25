@@ -203,16 +203,20 @@ app.post('/questions/:questionId/answers', async (req, res) => {
   }
 });
 
-// Get answers for a specific question
+// GET answers for a question
 app.get('/questions/:questionId/answers', (req, res) => {
+  console.log('Entered Get answers for a specific question APIEndpoint')
   const questionId = req.params.questionId;
-  const question = questions.find(q => q.id === parseInt(questionId));
-  if (!question) {
-    res.status(404).json({ error: 'Question not found' });
-    return;
-  }
-  res.json(question.answers);
+  Question.findById(questionId, 'answers', (err, question) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error retrieving answers');
+    } else {
+      res.status(200).json(question.answers);
+    }
+  });
 });
+
 
 
 

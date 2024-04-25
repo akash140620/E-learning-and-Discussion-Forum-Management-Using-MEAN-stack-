@@ -18,6 +18,11 @@ export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!emailPattern.test(this.registerData.email)) {
+      alert('Please enter a valid Gmail address.');
+      return;
+    }
     if (this.registerData.password !== this.registerData.retypePassword) {
       // Show alert if passwords do not match
       alert('Passwords do not match');

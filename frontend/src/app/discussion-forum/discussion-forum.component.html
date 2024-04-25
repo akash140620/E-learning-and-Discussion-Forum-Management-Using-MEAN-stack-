@@ -16,14 +16,14 @@
       <button (click)="toggleAnswers(question)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mt-2">
         {{ question.showAnswers ? 'Hide Answers' : 'Show Answers' }}
       </button>
-
-      <!-- Answers -->
+      <!--Answers-->
       <div *ngIf="question.showAnswers" class="mt-4">
         <div *ngFor="let answer of question.answers" class="bg-gray-100 p-2 rounded mt-2">
           <p>{{ answer.content }}</p>
           <p class="text-xs text-gray-500">Posted on: {{ answer.date | date }}</p>
         </div>
       </div>
+      
       <div class="mt-4">
         <input type="text" [(ngModel)]="answerTextMap[question._id]" placeholder="Type your answer here..." class="w-full border rounded-md p-2">
         <button (click)="postAnswer(question._id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Post Answer</button>
