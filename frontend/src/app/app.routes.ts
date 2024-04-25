@@ -9,8 +9,7 @@ import { CourseComponent } from './course/course.component';
 import { LessonComponent } from './lesson/lesson.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default
-    { path: 'login', component: LoginComponent },
+    { path: '', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
     { path: 'discussion-forum', component: DiscussionForumComponent },
@@ -18,5 +17,4 @@ export const routes: Routes = [
     { path: 'course', component: CourseComponent },
     { path: 'admin', component: AdminComponent },
     { path: 'lesson', component: LessonComponent },
-    { path: '**', redirectTo: '/login' } // Redirect to login for any other unmatched routes
 ];
