@@ -10,6 +10,7 @@ import { LessonComponent } from './lesson/lesson.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
     { path: 'discussion-forum', component: DiscussionForumComponent },

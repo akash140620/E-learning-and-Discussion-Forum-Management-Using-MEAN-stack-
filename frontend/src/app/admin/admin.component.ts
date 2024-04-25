@@ -4,6 +4,7 @@ import { CourseService } from '../../services/courseservice';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -127,5 +128,9 @@ export class AdminComponent implements OnInit {
       console.error('Error updating lesson content:', error);
     });
   }
+
+  navig() {
+    this.router.navigate(['/login']); // Navigate to '/other-page'
+    }
   
 }
