@@ -18,5 +18,5 @@ export const routes: Routes = [
     { path: 'course', component: CourseComponent },
     { path: 'admin', component: AdminComponent },
     { path: 'lesson', component: LessonComponent },
-    //{ path: '**', redirectTo: '/login' } // Redirect to login for any other unmatched routes
+    { path: '**', redirectTo: '/login' } // Redirect to login for any other unmatched routes
 ];

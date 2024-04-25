@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   loginData = { email: '', password: '' };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private sessionService: SessionService) {}
 
   login() {
 
@@ -39,5 +40,6 @@ export class LoginComponent {
         }
       );
     }
+    this.sessionService.login();
   }
 }
